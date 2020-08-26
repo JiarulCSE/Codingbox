@@ -1,0 +1,303 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<conio.h>
+#include<string.h>
+
+typedef struct Node node;
+
+struct Node{
+
+    char Medicine_name[100];
+    int Medicine_Id;
+    char Medicine_Mfg_Date[100];
+    char Medicine_Exp_Date[100];
+    char Medicine_Company_Name[100];
+    node *next;
+
+
+};
+
+
+node *head;
+
+void add_Medicine(){
+
+
+    node *new_node = (node*)malloc(sizeof(node));
+
+    printf("Enter Medicine name: ");
+    scanf("%*c%[^\n]",&new_node->Medicine_name);
+    printf("\n");
+
+    printf("Enter Medicine Id: ");
+    scanf("%d",&new_node->Medicine_Id);
+    printf("\n");
+
+    printf("Enter Medicine Mfg Date: ");
+    scanf("%*c%[^\n]",&new_node->Medicine_Mfg_Date);
+    printf("\n");
+
+    printf("Enter Medicine Exp Date: ");
+    scanf("%*c%[^\n]",&new_node->Medicine_Exp_Date);
+    printf("\n");
+
+    printf("Enter Medicine Company Name: ");
+    scanf("%*c%[^\n]",&new_node->Medicine_Company_Name);
+    printf("\n");
+
+    new_node->next = NULL;
+
+    if(head == NULL){
+
+
+        head = new_node;
+
+    }
+    else{
+
+        new_node->next = head;
+        head = new_node;
+
+    }
+
+
+}
+
+
+void search_Medicine(){
+
+
+    int id;
+    char Name[100];
+    int count = 0;
+
+    node *temp = head;
+
+
+    if(temp == NULL)
+    {
+        printf("\nMedicine Information is Empty. \n\n");
+    }
+    else
+    {
+
+        printf("Enter Medicine Name: ");
+        scanf("%*c%[^\n]",&Name);
+        printf("\n");
+
+        printf("Enter Medicine Id: ");
+        scanf("%d",&id);
+        printf("\n");
+
+        while(temp != NULL)
+        {
+
+            if(strcmp(temp->Medicine_name, Name)== 0 && temp->Medicine_Id == id)
+            {
+                printf("\n");
+                printf("Medicine Name: %s\n",temp->Medicine_name);
+                printf("Medicine Id: %d\n",temp->Medicine_Id);
+                printf("Medicine Mfg Date: %s\n",temp->Medicine_Mfg_Date);
+                printf("Medicine Exp Date: %s\n",temp->Medicine_Exp_Date);
+                printf("Medicine Company Name: %s\n",temp->Medicine_Company_Name);
+                printf("\n");
+
+                count++;
+            }
+            temp = temp->next;
+        }
+        if(count == 0)
+        {
+            printf("\nThis medicine is not in the list.\n");
+        }
+        printf("\n");
+    }
+
+
+}
+
+void delete_Medicine(){
+
+    char Name[100];
+    int id;
+
+    printf("Enter Medicine Name: ");
+    scanf("%*c%[^\n]",&Name);
+    printf("\n");
+
+    printf("Enter Medicine Id:");
+    scanf("%d",&id);
+    printf("\n");
+
+    node *top = head;
+
+    int counter = 0;
+    int x = 0;
+
+    while(top != NULL)
+    {
+        counter += 1;
+        if(strcmp(top->Medicine_name, Name)== 0 && top->Medicine_Id == id )
+        {
+            x = 1;
+            break;
+        }
+
+        top = top->next;
+
+    }
+
+    if(counter == 1)
+    {
+        node* temp = head;
+
+        head = temp->next;
+
+        free(temp);
+
+    }
+    else
+    {
+
+        node *previous, *current;
+        current = head;
+
+        for(int i=1; i<counter; i++)
+        {
+
+            previous = current;
+            current = current->next;
+        }
+
+        previous->next = current->next;
+
+        free(current);
+
+    }
+
+
+    if(x == 1)
+    {
+
+        printf("\n");
+        printf("............................Delete Complete............................");
+        printf("\n");
+
+    }
+    else
+    {
+
+
+        printf("\n");
+        printf("............................Medicine Not Exist.........................");
+        printf("\n");
+
+
+    }
+
+
+
+}
+
+void show_medicine_info(){
+
+    node *temp = head;
+
+    if(head == NULL)
+    {
+        printf("No employee Information is available");
+        printf("\n");
+    }
+    else
+    {
+        printf("<--------------------------------Medicine List---------------------------->\n");
+        printf("\n");
+
+        while(temp != NULL)
+        {
+
+            printf("Medicine Name: %s\n",temp->Medicine_name);
+            printf("Medicine Id: %d\n",temp->Medicine_Id);
+            printf("Medicine Mfg Date: %s\n",temp->Medicine_Mfg_Date);
+            printf("Medicine Exp Date: %s\n",temp->Medicine_Exp_Date);
+            printf("Medicine Company Name: %s\n",temp->Medicine_Company_Name);
+
+            temp = temp->next;
+
+            printf("\n");
+
+        }
+
+    }
+
+    printf("\n");
+    printf("\n");
+
+
+}
+
+
+int main(){
+
+    head = NULL;
+
+
+
+    int choice = 0;
+    while(choice != 5)
+    {
+
+        printf("\n");
+        printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>MAIN MENU<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        printf("\n");
+        printf("\nChoose one from the below options: \n");
+        printf("\n");
+        printf("\n1. Add Medicine.\n");
+        printf("\n2. Search Medicine.\n");
+        printf("\n3. Delete Medicine.\n");
+        printf("\n4. Display Medicine List.\n");
+        printf("\n5. Exit.\n");
+        printf("\n\nEnter your choice: ");
+        scanf("%d",&choice);
+        printf("\n");
+
+
+
+        switch(choice)
+        {
+        case 1:
+        {
+            add_Medicine();
+            break;
+        }
+        case 2:
+        {
+            search_Medicine();
+            break;
+        }
+        case 3:
+        {
+            delete_Medicine();
+            break;
+        }
+        case 4:
+        {
+            show_medicine_info();
+            break;
+        }
+        case 5:
+        {
+            printf(".............................Exit Completed............................");
+            break;
+        }
+
+        default:
+        {
+            printf("      Invalid!!!  : ");
+        }
+        };
+
+    }
+
+
+}
